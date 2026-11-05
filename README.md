@@ -1,128 +1,114 @@
-# Legend Of Legaia
+# Legaia Recomp
 
-<!-- retcomm-readme-metrics -->
-[![GitHub downloads (all assets, all releases)](https://img.shields.io/github/downloads/RetroPortingToolKit/my-first-psx-port/total)](https://github.com/RetroPortingToolKit/my-first-psx-port/releases)
-[![GitHub downloads (latest release)](https://img.shields.io/github/downloads/RetroPortingToolKit/my-first-psx-port/latest/total)](https://github.com/RetroPortingToolKit/my-first-psx-port/releases/latest)
-[![GitHub release](https://img.shields.io/github/v/release/RetroPortingToolKit/my-first-psx-port)](https://github.com/RetroPortingToolKit/my-first-psx-port/releases/latest)
-<!-- /retcomm-readme-metrics -->
+A static recompilation of **Legend of Legaia** (USA, `SCUS-94254`) for PC, with a
+fix for the hard freeze that occurred during some battle attack transitions.
 
-Static recompilation of **Legend Of Legaia** built on
-[psxrecomp](https://github.com/mstan/psxrecomp) and
+Built on [psxrecomp](https://github.com/mstan/psxrecomp) by Matthew Stanley and
 [recomp-ui](https://github.com/RetroPortingToolKit/recomp-ui).
-
-_Add a short pitch in catalog_identity.json / README._
 
 | | |
 |---|---|
+| Game | Legend of Legaia |
+| Region | USA (`SCUS-94254`) |
 | Players | 1 |
-| Region | USA |
-| Publisher | - |
-| Year | - |
+| Status | Playable; freeze fix verified in play |
 
-Scaffolded with the New Project Layout. See
-`psxrecomp/docs/GAME_PROJECT_SETUP.md` for the full flow.
+## What this fork changes
 
-<!-- retcomm-readme-launcher -->
-## Retro Launcher
+The upstream project, scaffolded for this game, reproducibly **froze for 30-60
+seconds** (then resumed, no crash) when certain Arts started, notably the
+**Meta Gimard** attack transition and sometimes **Tornado Flame**.
 
-You can run this title **standalone** (download the release zip, point it at
-your disc, play), or manage installs, updates, and disc/BIOS wiring with
-**[Retro Launcher](https://github.com/RetroPortingToolKit/Retro-Launcher)** —
-the Retro Compilation Manager hub for self-compiling recomps.
+### Root cause
 
-[Downloads](https://github.com/RetroPortingToolKit/Retro-Launcher/releases) ·
-[Full README & features](https://github.com/RetroPortingToolKit/Retro-Launcher#readme)
+The emulated CD-ROM controller (`psxrecomp/runtime/src/cdrom.c`) delayed the
+CD interrupt line by 5000 cycles, but the guest-visible state did not honour that
+delay. The interrupt flag register and the "response ready" status bit were
+readable the instant a command was written. During the roughly 11 second XA
+audio wait, the game's PsyQ libcd interrupt routine kept seeing a pending
+interrupt, re-entered itself, and never returned to the main thread. The
+game appeared frozen until the XA wait ended.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/RetroPortingToolKit/Retro-Launcher/main/docs/screenshots/hub-and-game-launcher.png" alt="Retro hub with a background build, next to a title’s recomp-ui launcher" width="720">
-</p>
+### Fix
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/RetroPortingToolKit/Retro-Launcher/main/docs/screenshots/queue-and-background-build.png" alt="Background cmake build with titles queued" width="720">
-</p>
+The interrupt flag and the response-ready bit are now hidden from the guest until
+the presentation delay has elapsed (`cd_irq_visible()`):
 
-Retro checks for updates, installs the prebuilt release zips, and automates
-BIOS/ROM/save plumbing so you are not stuck repeating each game’s first run by hand.
-<!-- /retcomm-readme-launcher -->
+```c
+static int cd_irq_visible(void) {
+    return cdrom_irq_present_due == 0 || psx_cycle_count >= cdrom_irq_present_due;
+}
+// 0x1F801800 status:  response-ready bit only if cd_irq_visible()
+// 0x1F801803 flag:    irq_flag only if cd_irq_visible()
+```
 
-## Legal
+This is the only source change. It is a small patch to the framework runtime and
+may be useful upstream for other PsyQ titles that stream XA audio.
 
-You must own the original game. Disc images under `disc/` are gitignored and
-must never be committed. Retail BIOS dumps are not redistributed and no C
-derived from one may be committed; releases run on the bundled MIT OpenBIOS.
+**Tested:** Meta Gimard and Tornado Flame across multiple fights with no
+freeze. Further regression testing of FMVs, streamed audio and loading
+transitions is welcome; please open an issue if you see anything odd.
 
-`generated/` (the recompiled game C) **is committed**: releases ship the
-compiled game, built by CI from that tree. Regenerate and commit it whenever
-seeds or the framework pin change.
+## Legal & Disclaimer
 
-Default app icon: `assets/psxrecomp.ico` (and `.png` / `.svg`) — Retro-themed controller mark from `psxrecomp/assets/`. Windows builds embed it via `APP_ICON`.
+Legend of Legaia is a trademark of its respective owners (Sony Interactive
+Entertainment / Contrail / Prokion). Legaia Recomp is an independent,
+non-commercial, open-source project and is **not affiliated with, endorsed by,
+or sponsored by** Sony or any of its subsidiaries or the game's developers.
 
-Optional box art under `launcher_assets/img/` may come from
-[libretro-thumbnails](https://github.com/libretro-thumbnails/libretro-thumbnails)
-(`Named_Boxarts`); see `BOXART_SOURCE.txt` when present.
+- This repository contains **no game assets**: no disc images, ROM dumps, audio,
+  video, textures, or retail PlayStation BIOS binaries.
+- You **must supply your own legally purchased copy** of the game as a disc image.
+  Disc images and saves are gitignored and must never be committed.
+- Builds run with the bundled clean-room, MIT-licensed
+  [OpenBIOS](https://github.com/grumpycoders/pcsx-redux/tree/main/src/mips/openbios).
+  No retail BIOS is required or redistributed.
+- `generated/` contains C code **machine-translated from the game's executable**
+  by the recompiler. It is a derivative of the original program code, so it is
+  published for preservation and interoperability purposes only. If you are a
+  rights holder and have concerns, please open an issue and it will be addressed
+  promptly.
+- This project is **non-commercial**. Do not sell it or builds of it.
 
-## Quick start (dev)
+## License
+
+The framework (`psxrecomp/`) is licensed under the
+[PolyForm Noncommercial License 1.0.0](psxrecomp/LICENSE), copyright Matthew
+Stanley. This fork keeps that license and its attribution, and all of it, including
+the CD-ROM fix, is covered by the same noncommercial terms. See
+`psxrecomp/THIRD_PARTY_ATTRIBUTION.md` for third-party components.
+
+## Building
+
+Requirements: CMake, Ninja, a C compiler (MSVC/clang on Windows, gcc/clang
+on Linux), Python 3, and SDL2 (see `psxrecomp/docs/BUILDING.md`).
 
 ```bash
-git submodule update --init --recursive
-./psxrecomp/tools/ci/build_emitters.sh
-python3 psxrecomp/psxrecomp_cli.py generate \
-  --config game.toml --project-root . --disc disc/<your>.cue
-git add generated && git commit -m "Regenerate game C"
 cmake -S . -B build-release -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build-release --target psx-runtime
 ```
 
-Official optimized Windows/Linux releases use the maintained shared builder
-with the title disc available. Commit the desired `VERSION`, source and
-framework pins, then run:
+The recompiled game C in `generated/` is already committed, so no disc is needed
+to build. To regenerate it from your own disc:
 
 ```bash
-scripts/package_release.sh --channel public
-# Use --channel playtest for a non-public package; --platform selects Windows/Linux.
+python3 psxrecomp/psxrecomp_cli.py generate \
+  --config game.toml --project-root . --disc disc/<your>.cue
 ```
 
-On Windows PowerShell, use
-`psxrecomp/tools/package_title_release.ps1 --channel public`. The generated
-`packaging/release.toml` and player instructions define the title payload.
-The shared builder owns regeneration, qualified build defaults, fresh private
-PGO boot training on supported native toolchains, staging and verification.
-Boot training is a build step, not gameplay qualification or a performance
-claim. See `psxrecomp/docs/RELEASING_A_TITLE.md`.
+Place your disc image under `disc/` (for example `disc/Legend of Legaia.cue`)
+before running. Config is in `game.toml` and `game_options.toml`.
 
-The separate *Release builds* CI workflow (tag `vX.Y.Z` or dispatch) builds
-committed `generated/` C without a disc on Linux, Windows and macOS. It uses
-`scripts/package_prebuilt_release.sh` and attaches compiled-game ZIPs. That
-explicit prebuilt path does not train selective PGO and is not the official
-optimized-release command. The common builder does not add macOS support.
+## Debugging freezes
 
-Studio's current Export action still uses the old prebuilt argument contract;
-use the shared command above for optimized releases until Studio adopts the
-recipe/channel interface. Its packager detection and `packaging/` warning also
-need that adoption; the generated recipe is maintained configuration, not a
-forked packager.
+The runtime includes a freeze detector. If the game stalls it writes
+`psx_freeze_dump_*.json` and `psx_freeze_heartbeat.json`, and
+`psx_last_run_report.json` records why the last run ended. Attach these when
+reporting an issue.
 
-## Symbols
+## Credits
 
-Progressive map: `symbols.toml` → `python3 tools/sync_symbols.py` →
-`psx_symbols.h` (`PSX_FN_*`). See `psxrecomp/docs/SYMBOLS.md`.
-
-## Framework pins
-
-Submodule gitlinks (`psxrecomp`, optional `recomp-ui`, nested `recomp-net`)
-are authoritative. `framework_pins.txt` is an optional scaffold snapshot;
-release CI logs SHAs with `record_pins.sh` but builds whatever the gitlinks
-resolve to. Bump submodules deliberately — do not float on `main`/`master`
-in release CI.
-
-<!-- retcomm-readme-raid -->
----
-
-<p align="center">
-  <sub><b>R.A.I.D. — Retro AI Development</b> · a Discord for AI-assisted retro reverse-engineering, decomp &amp; recomp</sub>
-</p>
-
-<p align="center">
-  <a href="https://discord.gg/Ad9BwSzctP"><img src=".github/raid-discord.png" alt="Join the Retro AI Development (R.A.I.D.) Discord" width="200"></a>
-</p>
-<!-- /retcomm-readme-raid -->
+- **psxrecomp**: Matthew Stanley ([mstan/psxrecomp](https://github.com/mstan/psxrecomp))
+- **recomp-ui** and the Retro Porting ToolKit
+- **OpenBIOS**: PCSX-Redux contributors (MIT)
+- Original game: Contrail / Prokion, published by Sony Computer Entertainment
