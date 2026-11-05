@@ -1,4 +1,4 @@
-# MyFirstPSXPort
+# Legend Of Legaia
 
 <!-- retcomm-readme-metrics -->
 [![GitHub downloads (all assets, all releases)](https://img.shields.io/github/downloads/RetroPortingToolKit/my-first-psx-port/total)](https://github.com/RetroPortingToolKit/my-first-psx-port/releases)
