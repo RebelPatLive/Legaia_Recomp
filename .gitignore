@@ -25,7 +25,8 @@
 /isos/
 /saves/
 /prepared_disc/
-/disc/
+/disc/*
+!/disc/README.md
 .settings/
 
 # Disc / image / memcard formats
