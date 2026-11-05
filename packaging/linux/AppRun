@@ -14,15 +14,15 @@ if [ -z "${APPDIR:-}" ]; then
     exit 1
 fi
 
-if [ -n "${MYFIRSTPSXPORT_DATA_DIR:-}" ]; then
-    data_dir=$MYFIRSTPSXPORT_DATA_DIR
+if [ -n "${LEGAIARECOMP_DATA_DIR:-}" ]; then
+    data_dir=$LEGAIARECOMP_DATA_DIR
 else
     if [ -n "${XDG_DATA_HOME:-}" ]; then
         data_home=$XDG_DATA_HOME
     elif [ -n "${HOME:-}" ]; then
         data_home=$HOME/.local/share
     else
-        echo "@APP_NAME@: HOME is not set; set MYFIRSTPSXPORT_DATA_DIR explicitly." >&2
+        echo "@APP_NAME@: HOME is not set; set LEGAIARECOMP_DATA_DIR explicitly." >&2
         exit 1
     fi
     data_dir=$data_home/@ARTIFACT_NAME@
@@ -88,7 +88,7 @@ fi
 # marker never drifts from the artifact name.
 printf '%s\n' "@VERSION@" > "$data_dir/.appimage-layout-version"
 
-if [ "${MYFIRSTPSXPORT_SEED_ONLY:-0}" = "1" ]; then
+if [ "${LEGAIARECOMP_SEED_ONLY:-0}" = "1" ]; then
     printf '%s\n' "$data_dir"
     exit 0
 fi
@@ -96,12 +96,12 @@ fi
 launcher=$data_dir/.@EXE_NAME@-runtime
 ln -sfn "$runtime" "$launcher"
 appimage_path=${APPIMAGE:-}
-export MYFIRSTPSXPORT_APPIMAGE_PATH=$appimage_path
+export LEGAIARECOMP_APPIMAGE_PATH=$appimage_path
 export RECOMP_APPIMAGE_PATH=$appimage_path
 
 # An explicit validation/runtime override may preselect a disc without baking
 # a developer path into the reproducible release configuration.
-disc_override=${MYFIRSTPSXPORT_DISC:-}
+disc_override=${LEGAIARECOMP_DISC:-}
 if [ -n "$disc_override" ] && [ -f "$disc_override" ]; then
     config_tmp=$data_dir/.game.toml.tmp
     awk -v disc="$disc_override" '

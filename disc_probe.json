@@ -11,7 +11,7 @@
   "serial": "SCUS-94254",
   "serial_exe": "SCUS_942.54",
   "volume_id": "",
-  "display_name": "MyFirstPSXPort",
+  "display_name": "LEGAIARECOMP",
   "load_address": "0x80010000",
   "entry_pc": "0x80026C28",
   "text_size": "0x0006B800",

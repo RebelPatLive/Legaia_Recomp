@@ -3,9 +3,9 @@
 schema = 1
 
 [product]
-name = "mfpsxp"
-display_name = "MyFirstPSXPort"
-exe_name = "MyFirstPSXPort"
+name = "legaiarecomp"
+display_name = "LEGAIARECOMP"
+exe_name = "LEGAIARECOMP"
 version_file = "VERSION"
 
 [build]
@@ -27,7 +27,7 @@ files = ["README.md"]
 
 [linux]
 app_run = "packaging/linux/AppRun"
-desktop_file = "packaging/linux/mfpsxp.desktop"
+desktop_file = "packaging/linux/legaiarecomp.desktop"
 icon = "assets/psxrecomp.png"
-payload_dir = "mfpsxp"
-env_prefix = "MYFIRSTPSXPORT"
+payload_dir = "legaiarecomp"
+env_prefix = "LEGAIARECOMP"

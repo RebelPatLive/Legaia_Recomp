@@ -11,7 +11,7 @@
 # Usage:
 #   scripts/package_prebuilt_release.sh <build-dir> <artifact-tag> [recompiler-build-dir]
 #
-# Writes: dist/mfpsxp-<VERSION>-<artifact-tag>.zip
+# Writes: dist/legaiarecomp-<VERSION>-<artifact-tag>.zip
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -55,10 +55,10 @@ exec bash "${PACKAGER}" \
   --root "${ROOT}" \
   --build-dir "${BUILD_DIR}" \
   --artifact "${ARTIFACT_TAG}" \
-  --zip-prefix mfpsxp \
-  --exe-name MyFirstPSXPort \
-  --display-name "MyFirstPSXPort" \
+  --zip-prefix legaiarecomp \
+  --exe-name LEGAIARECOMP \
+  --display-name "LEGAIARECOMP" \
   --recompiler-build "${RECOMPILER_BUILD}" \
   --version-env RELEASE_VERSION \
-  --disc-hint "your legally owned MyFirstPSXPort disc" \
+  --disc-hint "your legally owned LEGAIARECOMP disc" \
   "${EXTRA[@]}"

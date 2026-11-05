@@ -1,7 +1,7 @@
-MyFirstPSXPort @VERSION@
+LEGAIARECOMP @VERSION@
 
-Launch MyFirstPSXPort on Windows, or the AppImage on Linux, and choose your
-legally owned MyFirstPSXPort disc when prompted. No game disc or retail BIOS
+Launch LEGAIARECOMP on Windows, or the AppImage on Linux, and choose your
+legally owned LEGAIARECOMP disc when prompted. No game disc or retail BIOS
 image is included. OpenBIOS is bundled.
 
 Use the launcher to configure controls and mods. Internal Resolution starts

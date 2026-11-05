@@ -6,17 +6,17 @@
 #include "psxrecomp_codegen_host.h"
 
 static const PsxrecompCodegenHostConfig kCodegenConfig = {
-    .display_name = "MyFirstPSXPort",
-    .project_root_env = "MYFIRSTPSXPORT_PROJECT_ROOT",
-    .build_dir_env = "MYFIRSTPSXPORT_BUILD_DIR",
-    .force_setup_env = "MYFIRSTPSXPORT_FORCE_SETUP",
+    .display_name = "LEGAIARECOMP",
+    .project_root_env = "LEGAIARECOMP_PROJECT_ROOT",
+    .build_dir_env = "LEGAIARECOMP_BUILD_DIR",
+    .force_setup_env = "LEGAIARECOMP_FORCE_SETUP",
     .psxrecomp_cli_relpath = "psxrecomp/psxrecomp_cli.py",
     .seed_cfg_relpath = "game.toml",
     .game_toml_relpath = "game.toml",
     .gen_marker_relpath = "generated/SCUS_942.54_dispatch.c",
     .build_dir_name = "build-release",
     .cmake_target = "psx-runtime",
-    .exe_basename = "MyFirstPSXPort",
+    .exe_basename = "LEGAIARECOMP",
     .prepare_note =
         "Uses your legal disc with the local psxrecomp SDK to generate "
         "BIOS + game C, then cmake --build. The product lives under "
