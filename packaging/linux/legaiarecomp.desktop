@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=LEGAIARECOMP
-Exec=LEGAIARECOMP
+Name=Legaia Recomp
+Exec=LegaiaRecomp
 Icon=legaiarecomp
 Categories=Game;
 Terminal=false

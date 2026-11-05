@@ -1,7 +1,7 @@
-LEGAIARECOMP @VERSION@
+Legaia Recomp @VERSION@
 
-Launch LEGAIARECOMP on Windows, or the AppImage on Linux, and choose your
-legally owned LEGAIARECOMP disc when prompted. No game disc or retail BIOS
+Launch Legaia Recomp on Windows, or the AppImage on Linux, and choose your
+legally owned Legend of Legaia disc when prompted. No game disc or retail BIOS
 image is included. OpenBIOS is bundled.
 
 Use the launcher to configure controls and mods. Internal Resolution starts

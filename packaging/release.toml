@@ -4,8 +4,8 @@ schema = 1
 
 [product]
 name = "legaiarecomp"
-display_name = "LEGAIARECOMP"
-exe_name = "LEGAIARECOMP"
+display_name = "Legaia Recomp"
+exe_name = "LegaiaRecomp"
 version_file = "VERSION"
 
 [build]

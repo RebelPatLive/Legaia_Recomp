@@ -56,9 +56,9 @@ exec bash "${PACKAGER}" \
   --build-dir "${BUILD_DIR}" \
   --artifact "${ARTIFACT_TAG}" \
   --zip-prefix legaiarecomp \
-  --exe-name LEGAIARECOMP \
-  --display-name "LEGAIARECOMP" \
+  --exe-name LegaiaRecomp \
+  --display-name "Legaia Recomp" \
   --recompiler-build "${RECOMPILER_BUILD}" \
   --version-env RELEASE_VERSION \
-  --disc-hint "your legally owned LEGAIARECOMP disc" \
+  --disc-hint "your legally owned Legend of Legaia disc" \
   "${EXTRA[@]}"

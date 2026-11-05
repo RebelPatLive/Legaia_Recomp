@@ -6,7 +6,7 @@
 #include "psxrecomp_codegen_host.h"
 
 static const PsxrecompCodegenHostConfig kCodegenConfig = {
-    .display_name = "LEGAIARECOMP",
+    .display_name = "Legaia Recomp",
     .project_root_env = "LEGAIARECOMP_PROJECT_ROOT",
     .build_dir_env = "LEGAIARECOMP_BUILD_DIR",
     .force_setup_env = "LEGAIARECOMP_FORCE_SETUP",
@@ -16,7 +16,7 @@ static const PsxrecompCodegenHostConfig kCodegenConfig = {
     .gen_marker_relpath = "generated/SCUS_942.54_dispatch.c",
     .build_dir_name = "build-release",
     .cmake_target = "psx-runtime",
-    .exe_basename = "LEGAIARECOMP",
+    .exe_basename = "LegaiaRecomp",
     .prepare_note =
         "Uses your legal disc with the local psxrecomp SDK to generate "
         "BIOS + game C, then cmake --build. The product lives under "
