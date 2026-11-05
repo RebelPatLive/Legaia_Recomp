@@ -6,7 +6,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/RetroPortingToolKit/my-first-psx-port)](https://github.com/RetroPortingToolKit/my-first-psx-port/releases/latest)
 <!-- /retcomm-readme-metrics -->
 
-Static recompilation of **MyFirstPSXPort** built on
+Static recompilation of **Legend Of Legaia** built on
 [psxrecomp](https://github.com/mstan/psxrecomp) and
 [recomp-ui](https://github.com/RetroPortingToolKit/recomp-ui).
 
