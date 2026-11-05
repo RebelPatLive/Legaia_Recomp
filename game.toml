@@ -1,0 +1,55 @@
+# Autofilled by tools/new_project_layout/probe_disc.py from your legal dump.
+# Review before shipping. Runtime quirks / overlay seeds still need hand work.
+
+[game]
+name = "MyFirstPSXPort"
+id = "SCUS-94254"
+players = 1
+exe = "disc/SCUS_942.54"
+disc = "C:\\Discs\\My Game\\game.cue"
+load_address = "0x80010000"
+entry_pc = "0x80026C28"
+text_size = "0x0006B800"
+stack_base = "0x801FFFF0"
+
+# Digests are for data Track 01 (first BINARY FILE / TRACK 01).
+[prepare_disc]
+out_dir = "disc"
+bin_name = "Legend of Legaia (USA).bin"
+cue_name = "game.cue"
+boot_exe = "SCUS_942.54"
+known_sizes = [466714416]
+known_md5 = [
+  "741c234177eca1c1509b8a6af6843292",
+]
+known_sha1 = [
+  "f162656d34de19ec025074f184bb3f7c0ba1a2f1",
+]
+known_crc32 = [
+  "627ee76b",
+]
+
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+out_dir = "generated"
+strict = true
+discovery = "whole-image"
+
+[runtime]
+window_title = "MyFirstPSXPort Recompiled"
+memcard_dir = "saves"
+overlay_cache = true
+
+[video]
+renderer = "software"
+aspect_ratio = "4:3"
+
+[controller]
+default_mode = "digital"
+
+# Online mount gate: digests + track count + optional TOC fingerprint
+# (see docs/NETPLAY.md).
+[netplay]
+require_cue = true
+required_tracks = 1
+required_disc_fp = "390c0fb004247a195d25cf28f79527be9eb978e4c19b1725c8e023764cd215fe"

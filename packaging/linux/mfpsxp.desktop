@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=MyFirstPSXPort
+Exec=MyFirstPSXPort
+Icon=mfpsxp
+Categories=Game;
+Terminal=false
