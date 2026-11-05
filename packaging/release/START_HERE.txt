@@ -4,6 +4,10 @@ Launch Legaia Recomp on Windows, or the AppImage on Linux, and choose your
 legally owned Legend of Legaia disc when prompted. No game disc or retail BIOS
 image is included. OpenBIOS is bundled.
 
+Tip: the "game" folder next to the program is a handy place to keep your
+disc image (.cue and .bin files). The launcher still asks you to pick the .cue
+file, so it can live anywhere; this folder just keeps it tidy.
+
 Use the launcher to configure controls and mods. Internal Resolution starts
 at 4x on a fresh profile; its 1x through 32x choices remain subject to your
 GPU's texture and memory limits. Existing saved choices remain yours.
