@@ -1,0 +1,61 @@
+format_version = 11
+id = "legaia.enhancement.widescreen"
+version = "1.0.0"
+name = "Widescreen (Experimental)"
+author = "Legaia Recomp"
+description = "Stretches the game to a wider screen by squashing the 3D projection and presenting it wide. Not tuned for Legaia: expect edge pop-in and HUD oddities."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94254"
+
+[[feature]]
+id = "widescreen"
+name = "Widescreen (Experimental)"
+description = "Disabled by default. Shows a wider field of view using the framework's projection-squash method. Not tuned for this game: objects may pop in or be cut off near the screen edges and menus or HUD may look stretched. BIOS logos and movies stay 4:3. Restart the game after changing it."
+group = "Visual"
+channel = "experimental"
+default_enabled = false
+
+[[option]]
+feature = "widescreen"
+id = "aspect"
+label = "Aspect ratio"
+description = "16:9 is the standard widescreen shape. 21:9 is ultrawide. Fit follows the window shape (starts at 16:9)."
+group = "Visual"
+type = "choice"
+default = "16:9"
+
+[[option.choice]]
+value = "16:9"
+label = "16:9"
+
+[[option.choice]]
+value = "21:9"
+label = "21:9"
+
+[[option.choice]]
+value = "fit"
+label = "Fit to window"
+
+[[option]]
+feature = "widescreen"
+id = "hud_size"
+label = "HUD size"
+description = "Original keeps HUD elements at the display height's scale. Proportional shrinks them slightly beyond 16:9."
+group = "Visual"
+type = "choice"
+default = "original"
+
+[[option.choice]]
+value = "original"
+label = "Original"
+
+[[option.choice]]
+value = "proportional"
+label = "Proportional"
+
+[[plugin]]
+feature = "widescreen"
+id = "legaia.widescreen"

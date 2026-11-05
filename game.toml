@@ -53,3 +53,7 @@ default_mode = "digital"
 require_cue = true
 required_tracks = 1
 required_disc_fp = "390c0fb004247a195d25cf28f79527be9eb978e4c19b1725c8e023764cd215fe"
+
+[widescreen]
+native_wide = false
+gte_game_mode = true

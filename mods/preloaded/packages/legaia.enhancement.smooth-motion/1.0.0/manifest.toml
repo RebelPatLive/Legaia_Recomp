@@ -1,0 +1,75 @@
+format_version = 11
+id = "legaia.enhancement.smooth-motion"
+version = "1.0.0"
+name = "Smooth Motion"
+author = "Legaia Recomp"
+description = "Presents the game at a higher frame rate by blending between the game's own frames. Game speed, timing and audio are unchanged."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94254"
+
+[[feature]]
+id = "smooth-motion"
+name = "Smooth Motion"
+description = "Disabled by default. Blends completed game frames at a higher output rate. This is a crossfade, not true in-between motion, so fast-moving objects can show slight ghosting. OpenGL only; turns VSync off and is paused during movies."
+group = "Visual"
+channel = "experimental"
+default_enabled = false
+vsync = "off"
+
+[[option]]
+feature = "smooth-motion"
+id = "rate"
+label = "Output rate"
+description = "Frames per second to present. Display follows your monitor's refresh rate."
+group = "Visual"
+type = "choice"
+default = "display"
+
+[[option.choice]]
+value = "display"
+label = "Match display"
+
+[[option.choice]]
+value = "60"
+label = "60 FPS"
+
+[[option.choice]]
+value = "120"
+label = "120 FPS"
+
+[[option.choice]]
+value = "144"
+label = "144 FPS"
+
+[[option.choice]]
+value = "165"
+label = "165 FPS"
+
+[[option.choice]]
+value = "240"
+label = "240 FPS"
+
+[[option]]
+feature = "smooth-motion"
+id = "blend"
+label = "Blend style"
+description = "Linear crossfades every change. Motion adaptive switches large changes cleanly to reduce double-image trails."
+group = "Visual"
+type = "choice"
+default = "motion_adaptive"
+
+[[option.choice]]
+value = "linear"
+label = "Linear"
+
+[[option.choice]]
+value = "motion_adaptive"
+label = "Motion adaptive"
+
+[[plugin]]
+feature = "smooth-motion"
+id = "legaia.smooth-motion"
+netplay = "host_only"

@@ -42,12 +42,39 @@ static int cd_irq_visible(void) {
 // 0x1F801803 flag:    irq_flag only if cd_irq_visible()
 ```
 
-This is the only source change. It is a small patch to the framework runtime and
-may be useful upstream for other PsyQ titles that stream XA audio.
+This is the only change to the framework's runtime source. It is a small patch
+that may be useful upstream for other PsyQ titles that stream XA audio.
 
 **Tested:** Meta Gimard and Tornado Flame across multiple fights with no
 freeze. Further regression testing of FMVs, streamed audio and loading
 transitions is welcome; please open an issue if you see anything odd.
+
+## Optional enhancements (mods)
+
+Two experimental, **default-off** mods are included. Turn them on from the
+launcher's **Mods** page. Both change presentation only; game logic, timing and
+saves are unaffected.
+
+- **Smooth Motion** blends the game's frames to present at 60 Hz, your display's
+  refresh rate, or another rate you choose. It is a crossfade, not true in-between
+  motion, so fast-moving objects can ghost slightly. OpenGL only; VSync is turned
+  off while it is active; paused during movies.
+- **Widescreen (Experimental)** presents 3D scenes (fields, towns, the world map,
+  battles) at 16:9 or wider using a projection-squash method. Menus, the BIOS
+  logos and movies stay 4:3. It is **not tuned for Legaia**: expect some
+  edge pop-in or odd HUD/menu placement in places. Reports are welcome.
+
+The launcher also offers the framework's built-in options, such as **Internal
+Resolution** (up to 8K), image filtering, a CRT filter and enhanced audio.
+Loading-speed mods are intentionally not included in public builds.
+
+Widescreen needs these lines in `game.toml` (already set in this repo):
+
+```toml
+[widescreen]
+native_wide = false
+gte_game_mode = true
+```
 
 ## Legal & Disclaimer
 
